@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Snapshot</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header Section -->
+        <header class="glass-panel text-center">
+            <h1>Financial Snapshot</h1>
+            <p class="subtitle">Real-time monthly budgeting and annual forecasting</p>
+        </header>
+
+        <main class="dashboard-grid">
+            
+            <!-- Left Column: Inputs -->
+            <div class="input-section">
+                <!-- Income Panel -->
+                <section class="glass-panel block-income">
+                    <div class="panel-header block-header">
+                        <h2>Monthly Income</h2>
+                        <div class="total-badge income-badge" id="monthly-income-display">$0.00</div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="income-salary">Salary / Wages</label>
+                        <div class="input-wrapper">
+                            <span class="currency-symbol">$</span>
+                            <input type="number" id="income-salary" class="calc-input income-input" placeholder="0" min="0" step="10">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="income-other">Other Income (Side Hustle, Investments)</label>
+                        <div class="input-wrapper">
+                            <span class="currency-symbol">$</span>
+                            <input type="number" id="income-other" class="calc-input income-input" placeholder="0" min="0" step="10">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Expenses Panel -->
+                <section class="glass-panel block-expense mt-lg">
+                    <div class="panel-header block-header">
+                        <h2>Monthly Expenses</h2>
+                        <div class="total-badge expense-badge" id="monthly-expense-display">$0.00</div>
+                    </div>
+                    
+                    <div class="expense-grid">
+                        <div class="input-group">
+                            <label for="exp-housing">Housing (Rent/Mortgage)</label>
+                            <div class="input-wrapper">
+                                <span class="currency-symbol">$</span>
+                                <input type="number" id="exp-housing" class="calc-input expense-input category-housing" placeholder="0" min="0" step="10">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="exp-utilities">Utilities & Internet</label>
+                            <div class="input-wrapper">
+                                <span class="currency-symbol">$</span>
+                                <input type="number" id="exp-utilities" class="calc-input expense-input category-utilities" placeholder="0" min="0" step="10">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="exp-groceries">Groceries & Dining</label>
+                            <div class="input-wrapper">
+                                <span class="currency-symbol">$</span>
+                                <input type="number" id="exp-groceries" class="calc-input expense-input category-food" placeholder="0" min="0" step="10">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="exp-transport">Transportation (Car, Gas, Transit)</label>
+                            <div class="input-wrapper">
+                                <span class="currency-symbol">$</span>
+                                <input type="number" id="exp-transport" class="calc-input expense-input category-transport" placeholder="0" min="0" step="10">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="exp-insurance">Insurance (Health, Auto)</label>
+                            <div class="input-wrapper">
+                                <span class="currency-symbol">$</span>
+                                <input type="number" id="exp-insurance" class="calc-input expense-input category-insurance" placeholder="0" min="0" step="10">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="exp-personal">Personal & Entertainment</label>
+                            <div class="input-wrapper">
+                                <span class="currency-symbol">$</span>
+                                <input type="number" id="exp-personal" class="calc-input expense-input category-personal" placeholder="0" min="0" step="10">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="exp-debt">Debt Repayment (Loans, Cards)</label>
+                            <div class="input-wrapper">
+                                <span class="currency-symbol">$</span>
+                                <input type="number" id="exp-debt" class="calc-input expense-input category-debt" placeholder="0" min="0" step="10">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="exp-other">Other Expenses</label>
+                            <div class="input-wrapper">
+                                <span class="currency-symbol">$</span>
+                                <input type="number" id="exp-other" class="calc-input expense-input category-other" placeholder="0" min="0" step="10">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Column: Results & Visualization -->
+            <div class="results-section">
+                <!-- Monthly Summary -->
+                <section class="glass-panel block-summary">
+                    <h2>Monthly Summary</h2>
+                    <div class="summary-cards">
+                        <div class="stat-card">
+                            <span class="stat-label">Net Monthly Savings</span>
+                            <span class="stat-value highlight-savings" id="monthly-savings-display">$0.00</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-label">Savings Rate</span>
+                            <span class="stat-value" id="savings-rate-display">0%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <canvas id="budgetChart"></canvas>
+                    </div>
+                </section>
+
+                <!-- Annual Snapshot -->
+                <section class="glass-panel block-annual mt-lg">
+                    <h2>Annual Finacial Snapshot</h2>
+                    <p class="section-desc">Extrapolated based on current monthly metrics.</p>
+                    
+                    <div class="annual-grid">
+                        <div class="annual-item">
+                            <div class="annual-icon income-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                            </div>
+                            <div class="annual-details">
+                                <span class="annual-label">Total Annual Income</span>
+                                <span class="annual-value text-income" id="annual-income-display">$0.00</span>
+                            </div>
+                        </div>
+                        
+                        <div class="annual-item">
+                            <div class="annual-icon expense-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+                            </div>
+                            <div class="annual-details">
+                                <span class="annual-label">Total Annual Expenses</span>
+                                <span class="annual-value text-expense" id="annual-expense-display">$0.00</span>
+                            </div>
+                        </div>
+                        
+                        <div class="annual-item">
+                            <div class="annual-icon savings-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                            </div>
+                            <div class="annual-details">
+                                <span class="annual-label">Total Annual Savings</span>
+                                <span class="annual-value text-savings" id="annual-savings-display">$0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
