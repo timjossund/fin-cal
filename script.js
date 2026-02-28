@@ -37,7 +37,9 @@ document.addEventListener('DOMContentLoaded', () => {
             'Insurance': 0,
             'Personal': 0,
             'Debt': 0,
-            'Other': 0
+            'Other': 0,
+            'Tithe': 0,
+            'Missions': 0
         };
 
         // Sum Income
@@ -60,6 +62,8 @@ document.addEventListener('DOMContentLoaded', () => {
             else if (input.classList.contains('category-personal')) expenseCategories['Personal'] += val;
             else if (input.classList.contains('category-debt')) expenseCategories['Debt'] += val;
             else if (input.classList.contains('category-other')) expenseCategories['Other'] += val;
+            else if (input.classList.contains('category-tithe')) expenseCategories['Tithe'] += val;
+            else if (input.classList.contains('category-missions')) expenseCategories['Missions'] += val;
         });
 
         const netSavings = totalIncome - totalExpense;
@@ -188,6 +192,8 @@ document.addEventListener('DOMContentLoaded', () => {
             'Personal': '#ec4899',    // Pink
             'Debt': '#ef4444',        // Rose
             'Other': '#64748b',       // Slate
+            'Tithe': '#d97706',       // Gold
+            'Missions': '#22c55e',    // Green
             'Savings': colorSavings   // Indigo
         };
 
